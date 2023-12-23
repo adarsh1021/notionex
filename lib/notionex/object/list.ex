@@ -9,11 +9,16 @@ defmodule Notionex.Object.List do
 
   defstruct has_more: false, next_cursor: nil, object: nil, results: [], type: nil
 
-  def new(%{"object" => "list"} = attrs) do
+  def new(%{"object" => "list", "type" => "block"} = attrs) do
     attrs
-    |> Enum.reduce(%__MODULE__{}, fn {key, val}, acc ->
-      acc
-      |> Map.put(String.to_existing_atom(key), val)
+    |> Enum.reduce(%__MODULE__{}, fn
+      {"results", val}, acc ->
+        acc
+        |> Map.put(:results, Enum.map(val, &Notionex.Object.Block.new/1))
+
+      {key, val}, acc ->
+        acc
+        |> Map.put(String.to_existing_atom(key), val)
     end)
   end
 end

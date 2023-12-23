@@ -41,7 +41,44 @@ defmodule Notionex.Object.Block do
               video: map()
             }
 
-  defstruct parent: nil, type: nil, has_children: false
+  defstruct Object.default_properties() ++
+              [
+                parent: nil,
+                type: nil,
+                has_children: false,
+                # All block types
+                bookmark: %{},
+                breadcrumb: %{},
+                bulleted_list_item: %{},
+                callout: %{},
+                child_database: %{},
+                child_page: %{},
+                column: %{},
+                column_list: %{},
+                divider: %{},
+                embed: %{},
+                equation: %{},
+                file: %{},
+                heading_1: %{},
+                heading_2: %{},
+                heading_3: %{},
+                image: %{},
+                link_preview: %{},
+                link_to_page: %{},
+                numbered_list_item: %{},
+                paragraph: %{},
+                pdf: %{},
+                quote: %{},
+                synced_block: %{},
+                table: %{},
+                table_of_contents: %{},
+                table_row: %{},
+                template: %{},
+                to_do: %{},
+                toggle: %{},
+                unsupported: %{},
+                video: %{}
+              ]
 
   def new(%{"object" => "block"} = attrs) do
     attrs
