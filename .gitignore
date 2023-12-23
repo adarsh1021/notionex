@@ -24,3 +24,7 @@ notionex-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Misc
+.DS_Store
+config/config.secret.exs
