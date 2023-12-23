@@ -1,4 +1,4 @@
-defmodule Notionex.Block do
+defmodule Notionex.Object.Block do
   alias Notionex.Object
 
   @type t() ::
