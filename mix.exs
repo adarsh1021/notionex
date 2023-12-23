@@ -21,7 +21,8 @@ defmodule Notionex.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 2.2.1"}
+      {:httpoison, "~> 2.2.1"},
+      {:jason, "~> 1.4.1"}
     ]
   end
 end
