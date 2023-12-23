@@ -38,7 +38,10 @@ defmodule Notionex.Object.Block do
               to_do: map(),
               toggle: map(),
               unsupported: map(),
-              video: map()
+              video: map(),
+              code: map(),
+              # Metadata / helpers
+              numbered_list_item_number: integer()
             }
 
   defstruct Object.default_properties() ++
@@ -77,7 +80,10 @@ defmodule Notionex.Object.Block do
                 to_do: %{},
                 toggle: %{},
                 unsupported: %{},
-                video: %{}
+                video: %{},
+                code: %{},
+                # Metadata / helpers
+                numbered_list_item_number: 0
               ]
 
   def new(%{"object" => "block"} = attrs) do
