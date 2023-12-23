@@ -19,7 +19,7 @@ defmodule Notionex.Client do
     |> do_request()
     |> case do
       {:ok, body} ->
-        Jason.decode!(body, keys: :atoms!)
+        Jason.decode!(body)
 
       {:error, error} ->
         raise error
