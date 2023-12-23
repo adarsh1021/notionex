@@ -14,7 +14,7 @@ defmodule Notionex.Renderer.HTML.Block do
     end)
     |> Enum.reverse()
     |> Enum.map(fn b -> block(b, opts) end)
-    |> Enum.join("\n")
+    |> Enum.join("<br />")
   end
 
   @impl true
@@ -64,9 +64,44 @@ defmodule Notionex.Renderer.HTML.Block do
     |> then(&"<code>#{&1}</code>")
   end
 
+  # TODO: Handle caption
+  def block(%Object.Block{object: "block", type: "video", video: video}, _opts) do
+    case Map.get(video, "type") do
+      "external" ->
+        video
+        |> get_in(["external", "url"])
+        |> then(&"<iframe src=\"#{&1}\" frameborder=\"0\" allowfullscreen></iframe>")
+
+      _ ->
+        raise "Block type video, not implemented type: #{Map.get(video, "type")}"
+    end
+  end
+
+  # TODO: Handle caption
+  def block(%Object.Block{object: "block", type: "image", image: image}, _opts) do
+    case Map.get(image, "type") do
+      "external" ->
+        image
+        |> get_in(["external", "url"])
+        |> then(&"<img src=\"#{&1}\" />")
+
+      _ ->
+        raise "Block type image, not implemented type: #{Map.get(image, "type")}"
+    end
+  end
+
+  # TODO: Handle caption
+  def block(%Object.Block{object: "block", type: "bookmark", bookmark: bookmark}, _opts) do
+    bookmark
+    |> Map.get("url")
+    |> then(&"<a href=\"#{&1}\">#{&1}</a>")
+  end
+
   def block(%Object.Block{object: "block", type: type}, _) do
     raise "Block type not implemented: #{type}"
   end
+
+  # Helpers
 
   defp render_rich_text(block_type_obj) do
     block_type_obj
