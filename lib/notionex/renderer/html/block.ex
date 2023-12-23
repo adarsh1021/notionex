@@ -1,12 +1,12 @@
 defmodule Notionex.Renderer.HTML.Block do
   @behaviour Notionex.Renderer.Block
 
-  alias Notionex.Object
+  alias Notionex.Object.{Block, List}
   alias Notionex.Renderer.Utils
   alias Notionex.Renderer.HTML.RichText
 
   @impl true
-  def blocks(%Object.List{object: "list", type: "block", results: results}, opts) do
+  def blocks(%List{object: "list", type: "block", results: results}, opts) do
     results
     |> Enum.reduce([], fn block, acc ->
       updated_block = Utils.update_numbered_list_item_number(block, Enum.at(acc, 0))
@@ -18,32 +18,32 @@ defmodule Notionex.Renderer.HTML.Block do
   end
 
   @impl true
-  def block(%Object.Block{object: "block", type: "paragraph", paragraph: paragraph}, _opts) do
+  def block(%Block{object: "block", type: "paragraph", paragraph: paragraph}, _opts) do
     paragraph
     |> render_rich_text()
     |> then(&"<p>#{&1}</p>")
   end
 
-  def block(%Object.Block{object: "block", type: "heading_1", heading_1: heading_1}, _opts) do
+  def block(%Block{object: "block", type: "heading_1", heading_1: heading_1}, _opts) do
     heading_1
     |> render_rich_text()
     |> then(&"<h1>#{&1}</h1>")
   end
 
-  def block(%Object.Block{object: "block", type: "heading_2", heading_2: heading_2}, _opts) do
+  def block(%Block{object: "block", type: "heading_2", heading_2: heading_2}, _opts) do
     heading_2
     |> render_rich_text()
     |> then(&"<h3>#{&1}</h3>")
   end
 
-  def block(%Object.Block{object: "block", type: "heading_3", heading_3: heading_3}, _opts) do
+  def block(%Block{object: "block", type: "heading_3", heading_3: heading_3}, _opts) do
     heading_3
     |> render_rich_text()
     |> then(&"<h5>#{&1}</h5>")
   end
 
   def block(
-        %Object.Block{
+        %Block{
           object: "block",
           type: "numbered_list_item",
           numbered_list_item: numbered_list_item,
@@ -58,14 +58,14 @@ defmodule Notionex.Renderer.HTML.Block do
     |> then(&"<ol>#{&1}</ol>")
   end
 
-  def block(%Object.Block{object: "block", type: "code", code: code}, _opts) do
+  def block(%Block{object: "block", type: "code", code: code}, _opts) do
     code
     |> render_rich_text()
     |> then(&"<pre><code>#{&1}</code></pre>")
   end
 
   # TODO: Handle caption
-  def block(%Object.Block{object: "block", type: "video", video: video}, _opts) do
+  def block(%Block{object: "block", type: "video", video: video}, _opts) do
     case Map.get(video, "type") do
       "external" ->
         video
@@ -78,7 +78,7 @@ defmodule Notionex.Renderer.HTML.Block do
   end
 
   # TODO: Handle caption
-  def block(%Object.Block{object: "block", type: "image", image: image}, _opts) do
+  def block(%Block{object: "block", type: "image", image: image}, _opts) do
     case Map.get(image, "type") do
       "external" ->
         image
@@ -91,13 +91,13 @@ defmodule Notionex.Renderer.HTML.Block do
   end
 
   # TODO: Handle caption
-  def block(%Object.Block{object: "block", type: "bookmark", bookmark: bookmark}, _opts) do
+  def block(%Block{object: "block", type: "bookmark", bookmark: bookmark}, _opts) do
     bookmark
     |> Map.get("url")
     |> then(&"<a href=\"#{&1}\">#{&1}</a>")
   end
 
-  def block(%Object.Block{object: "block", type: type}, _) do
+  def block(%Block{object: "block", type: type}, _) do
     raise "Block type not implemented: #{type}"
   end
 
