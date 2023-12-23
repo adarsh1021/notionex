@@ -41,6 +41,8 @@ defmodule Notionex.Block do
               video: map()
             }
 
+  defstruct parent: nil, type: nil, has_children: false
+
   def new(%{"object" => "block"} = attrs) do
     attrs
     |> Enum.reduce(%__MODULE__{}, fn {key, val}, acc ->
