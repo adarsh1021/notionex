@@ -61,7 +61,7 @@ defmodule Notionex.Renderer.HTML.Block do
   def block(%Object.Block{object: "block", type: "code", code: code}, _opts) do
     code
     |> render_rich_text()
-    |> then(&"<code>#{&1}</code>")
+    |> then(&"<pre><code>#{&1}</code></pre>")
   end
 
   # TODO: Handle caption
