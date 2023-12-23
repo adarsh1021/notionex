@@ -1,22 +1,41 @@
 defmodule Notionex.Client do
-  alias Notionex.Config
   alias Notionex.Client.Request
 
-  @spec request(Request.t()) :: {:ok, any()} | {:error, any()}
-  def request(%Request{} = request) do
+  @spec request!(Request.t()) :: any()
+  def request!(%Request{} = request) do
     headers = [
-      {"authorization", "Bearer #{Config.bearer_token()}"},
+      {"authorization", "Bearer #{Application.fetch_env!(:notionex, :bearer_token)}"},
       {"Notion-Version", "2022-06-28"},
       {"user-agent", "notionex-client"}
     ]
 
     %HTTPoison.Request{
       method: request.method,
-      url: "#{Config.base_url()}/#{request.url}",
+      url: "#{Application.fetch_env!(:notionex, :base_url)}/#{request.url}",
       body: request.body,
       headers: headers,
-      params: request.params,
+      params: request.params
     }
-    |> HTTPoison.request()
+    |> do_request()
+    |> case do
+      {:ok, body} ->
+        Jason.decode!(body, keys: :atoms!)
+
+      {:error, error} ->
+        raise error
+    end
+  end
+
+  defp do_request(%HTTPoison.Request{} = request) do
+    case HTTPoison.request(request) do
+      {:ok, %{status_code: status_code, body: body}} when status_code in 200..299 ->
+        {:ok, body}
+
+      {:ok, %{status_code: status_code} = resp} when status_code >= 400 ->
+        {:error, "Client error: #{inspect(resp)}"}
+
+      {:error, resp} ->
+        {:error, "HTTPoison error: #{inspect(resp)}"}
+    end
   end
 end

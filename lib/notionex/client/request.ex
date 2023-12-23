@@ -10,7 +10,7 @@ defmodule Notionex.Client.Request do
           method: method,
           url: binary,
           body: body,
-          params: params,
+          params: params
         }
 
   defstruct method: :get, url: nil, body: "", params: %{}
