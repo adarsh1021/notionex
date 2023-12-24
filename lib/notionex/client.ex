@@ -1,6 +1,8 @@
 defmodule Notionex.Client do
   alias Notionex.Client.Request
 
+  @default_base_url "https://api.notion.com/v1"
+
   @spec request!(Request.t()) :: any()
   def request!(%Request{} = request) do
     headers = [
@@ -10,10 +12,13 @@ defmodule Notionex.Client do
       {"user-agent", "notionex-client"}
     ]
 
+    url = "#{Application.get_env(:notionex, :base_url, @default_base_url)}/#{request.url}"
+    body = if request.body == nil, do: "", else: Jason.encode!(request.body)
+
     %HTTPoison.Request{
       method: request.method,
-      url: "#{Application.fetch_env!(:notionex, :base_url)}/#{request.url}",
-      body: Jason.encode!(request.body),
+      url: url,
+      body: body,
       headers: headers,
       params: request.params
     }
