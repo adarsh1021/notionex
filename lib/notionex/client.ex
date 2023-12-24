@@ -6,13 +6,14 @@ defmodule Notionex.Client do
     headers = [
       {"authorization", "Bearer #{Application.fetch_env!(:notionex, :bearer_token)}"},
       {"Notion-Version", "2022-06-28"},
+      {"Content-Type", "application/json"},
       {"user-agent", "notionex-client"}
     ]
 
     %HTTPoison.Request{
       method: request.method,
       url: "#{Application.fetch_env!(:notionex, :base_url)}/#{request.url}",
-      body: request.body,
+      body: Jason.encode!(request.body),
       headers: headers,
       params: request.params
     }
