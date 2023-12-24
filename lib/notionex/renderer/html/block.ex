@@ -85,6 +85,11 @@ defmodule Notionex.Renderer.HTML.Block do
         |> get_in(["external", "url"])
         |> then(&"<img src=\"#{&1}\" />")
 
+      "file" ->
+        image
+        |> get_in(["file", "url"])
+        |> then(&"<img src=\"#{&1}\" />")
+
       _ ->
         raise "Block type image, not implemented type: #{Map.get(image, "type")}"
     end
@@ -95,6 +100,11 @@ defmodule Notionex.Renderer.HTML.Block do
     bookmark
     |> Map.get("url")
     |> then(&"<a href=\"#{&1}\">#{&1}</a>")
+  end
+
+  # Not sure what to do with this
+  def block(%Block{object: "block", type: "column_list"}, _opts) do
+    ""
   end
 
   def block(%Block{object: "block", type: type}, _) do

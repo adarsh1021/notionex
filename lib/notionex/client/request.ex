@@ -13,5 +13,5 @@ defmodule Notionex.Client.Request do
           params: params
         }
 
-  defstruct method: :get, url: nil, body: "", params: %{}
+  defstruct method: :get, url: nil, body: nil, params: %{}
 end
