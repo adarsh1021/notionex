@@ -5,13 +5,6 @@ defmodule Notionex.Client do
 
   @spec request!(Request.t()) :: any()
   def request!(%Request{} = request) do
-    headers = [
-      {"authorization", "Bearer #{Application.fetch_env!(:notionex, :bearer_token)}"},
-      {"Notion-Version", "2022-06-28"},
-      {"Content-Type", "application/json"},
-      {"user-agent", "notionex-client"}
-    ]
-
     url = "#{Application.get_env(:notionex, :base_url, @default_base_url)}/#{request.url}"
     body = if request.body == nil, do: "", else: Jason.encode!(request.body)
 
@@ -19,7 +12,7 @@ defmodule Notionex.Client do
       method: request.method,
       url: url,
       body: body,
-      headers: headers,
+      headers: get_headers(),
       params: request.params
     }
     |> do_request()
@@ -30,6 +23,15 @@ defmodule Notionex.Client do
       {:error, error} ->
         raise error
     end
+  end
+
+  defp get_headers() do
+    [
+      {"authorization", "Bearer #{Application.fetch_env!(:notionex, :bearer_token)}"},
+      {"Notion-Version", "2022-06-28"},
+      {"Content-Type", "application/json"},
+      {"user-agent", "notionex-client"}
+    ]
   end
 
   defp do_request(%HTTPoison.Request{} = request) do
