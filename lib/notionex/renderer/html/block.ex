@@ -58,6 +58,12 @@ defmodule Notionex.Renderer.HTML.Block do
     |> then(&"<ol>#{&1}</ol>")
   end
 
+  def block(%Block{object: "block", type: "bulleted_list_item", bulleted_list_item: bullet_list_item}, _opts) do
+    bullet_list_item
+    |> render_rich_text()
+    |> then(&"<ul><li>#{&1}</li></ul>")
+  end
+
   def block(%Block{object: "block", type: "code", code: code}, _opts) do
     code
     |> render_rich_text()
@@ -105,6 +111,12 @@ defmodule Notionex.Renderer.HTML.Block do
   # Not sure what to do with this
   def block(%Block{object: "block", type: "column_list"}, _opts) do
     ""
+  end
+
+  def block(%Block{object: "block", type: "quote", quote: blockquote}, _opts) do
+    blockquote
+    |> render_rich_text()
+    |> then(&"<blockquote>#{&1}</blockquote>")
   end
 
   def block(%Block{object: "block", type: type}, _) do
