@@ -1,6 +1,4 @@
 defmodule Notionex.Object do
-  # @type object :: "page" | "database" | "block"
-
   @type t() :: %{
           object: binary,
           id: binary,

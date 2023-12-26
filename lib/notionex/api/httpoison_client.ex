@@ -3,7 +3,7 @@ defmodule Notionex.API.HTTPoisonClient do
 
   alias Notionex.API.Request
 
-  @impl Notionex.API.Client
+  @impl true
   def request(%Request{} = request, _opts \\ []) do
     %HTTPoison.Request{
       method: request.method,
@@ -22,7 +22,7 @@ defmodule Notionex.API.HTTPoisonClient do
     end
   end
 
-  @impl Notionex.API.Client
+  @impl true
   def request!(%Request{} = request, opts \\ []) do
     case request(request, opts) do
       {:ok, response} ->
