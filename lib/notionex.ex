@@ -1,5 +1,10 @@
 defmodule Notionex do
   alias Notionex.Object
+  alias Notionex.API
+
+  def request(%API.Request{} = request, endpoint, opts \\ []) do
+    apply(API, endpoint, [request, opts])
+  end
 
   def render_block(page_id, renderer \\ Notionex.Renderer.HTML.Block, opts \\ %{})
       when is_binary(page_id) do
