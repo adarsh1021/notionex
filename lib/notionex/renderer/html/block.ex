@@ -58,7 +58,10 @@ defmodule Notionex.Renderer.HTML.Block do
     |> then(&"<ol>#{&1}</ol>")
   end
 
-  def block(%Block{object: "block", type: "bulleted_list_item", bulleted_list_item: bullet_list_item}, _opts) do
+  def block(
+        %Block{object: "block", type: "bulleted_list_item", bulleted_list_item: bullet_list_item},
+        _opts
+      ) do
     bullet_list_item
     |> render_rich_text()
     |> then(&"<ul><li>#{&1}</li></ul>")

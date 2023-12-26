@@ -8,7 +8,12 @@ defmodule Notionex.Object.List do
           page_or_database: map
         }
 
-  defstruct has_more: false, next_cursor: nil, object: nil, results: [], type: nil, page_or_database: %{}
+  defstruct has_more: false,
+            next_cursor: nil,
+            object: nil,
+            results: [],
+            type: nil,
+            page_or_database: %{}
 
   def new(%{"object" => "list", "type" => "block"} = attrs) do
     attrs

@@ -14,7 +14,7 @@ defmodule Notionex.MixProject do
         links: %{}
       ],
       docs: [
-        main: "Notionex",
+        main: "Notionex"
       ]
     ]
   end
