@@ -3,8 +3,8 @@ defmodule Notionex.Client do
 
   @default_base_url "https://api.notion.com/v1"
 
-  @spec request!(Request.t()) :: any()
-  def request!(%Request{} = request) do
+  @spec request(Request.t(), keyword) :: {:ok, any()} | {:error, any()}
+  def request(%Request{} = request, opts \\ []) do
     url = "#{Application.get_env(:notionex, :base_url, @default_base_url)}/#{request.url}"
     body = if request.body == nil, do: "", else: Jason.encode!(request.body)
 
@@ -18,7 +18,18 @@ defmodule Notionex.Client do
     |> do_request()
     |> case do
       {:ok, body} ->
-        Jason.decode!(body)
+        {:ok, Jason.decode!(body)}
+
+      {:error, error} ->
+        {:error, error}
+    end
+  end
+
+  @spec request!(Request.t(), keyword) :: term
+  def request!(%Request{} = request, opts \\ []) do
+    case request(request, opts) do
+      {:ok, response} ->
+        response
 
       {:error, error} ->
         raise error
