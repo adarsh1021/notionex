@@ -2,6 +2,22 @@ defmodule Notionex.API do
   alias Notionex.API.Request
   alias Notionex.Object.{Block, Page, List}
 
+  @doc """
+  Append block children.
+  """
+  def append_block_children(%{block_id: block_id, children: children} = params, opts \\ []) do
+    %Request{
+      method: :patch,
+      url: "blocks/#{block_id}/children",
+      body: Map.take(params, [:children, :after])
+    }
+    |> do_client_request(opts)
+    |> List.new()
+  end
+
+  @doc """
+  Retrieve a block.
+  """
   def retrieve_block(%{block_id: block_id}, opts \\ []) do
     %Request{
       method: :get,
@@ -22,6 +38,31 @@ defmodule Notionex.API do
     }
     |> do_client_request(opts)
     |> List.new()
+  end
+
+  @doc """
+  Update block.
+  """
+  def update_block(%{block_id: block_id} = params, opts \\ []) do
+    %Request{
+      method: :patch,
+      url: "blocks/#{block_id}",
+      body: Map.take(params, [:archived])
+    }
+    |> do_client_request(opts)
+    |> Block.new()
+  end
+
+  @doc """
+  Delete a block.
+  """
+  def delete_block(%{block_id: block_id}, opts \\ []) do
+    %Request{
+      method: :delete,
+      url: "blocks/#{block_id}"
+    }
+    |> do_client_request(opts)
+    |> Block.new()
   end
 
   @doc """
