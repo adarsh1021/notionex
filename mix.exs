@@ -14,7 +14,12 @@ defmodule Notionex.MixProject do
         links: %{}
       ],
       docs: [
-        main: "Notionex"
+        main: "Notionex",
+        groups_for_docs: [
+          "Block Endpoints": & &1[:endpoint] == :block,
+          "Page Endpoints": & &1[:endpoint] == :page,
+          "Database Endpoints": & &1[:endpoint] == :database
+        ]
       ]
     ]
   end

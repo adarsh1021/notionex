@@ -2,6 +2,7 @@ defmodule Notionex.API do
   alias Notionex.API.Request
   alias Notionex.Object.{Block, Page, List}
 
+  @doc endpoint: :block
   @doc """
   Append block children.
   """
@@ -15,6 +16,7 @@ defmodule Notionex.API do
     |> List.new()
   end
 
+  @doc endpoint: :block
   @doc """
   Retrieve a block.
   """
@@ -27,6 +29,7 @@ defmodule Notionex.API do
     |> Block.new()
   end
 
+  @doc endpoint: :block
   @doc """
   Retrieve block children.
   """
@@ -40,6 +43,7 @@ defmodule Notionex.API do
     |> List.new()
   end
 
+  @doc endpoint: :block
   @doc """
   Update block.
   """
@@ -53,6 +57,7 @@ defmodule Notionex.API do
     |> Block.new()
   end
 
+  @doc endpoint: :block
   @doc """
   Delete a block.
   """
@@ -65,6 +70,7 @@ defmodule Notionex.API do
     |> Block.new()
   end
 
+  @doc endpoint: :page
   @doc """
   Retrieve a page.
   """
@@ -78,6 +84,7 @@ defmodule Notionex.API do
     |> Page.new()
   end
 
+  @doc endpoint: :database
   @doc """
   Query a database.
   """
