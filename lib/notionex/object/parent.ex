@@ -6,4 +6,6 @@ defmodule Notionex.Object.Parent do
           workspace: boolean,
           block_id: binary
         }
+
+  defstruct type: "", database_id: "", page_id: "", workspace: false, block_id: ""
 end

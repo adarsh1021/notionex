@@ -1,6 +1,6 @@
 defmodule Notionex.API do
   alias Notionex.API.Request
-  alias Notionex.Object.{Block, Page, List}
+  alias Notionex.Object.{Block, Page, List, Parent, Database}
 
   @doc endpoint: :block
   @doc """
@@ -105,8 +105,8 @@ defmodule Notionex.API do
   def retrieve_page_property(%{page_id: page_id, property_id: property_id} = params, opts \\ []) do
     %Request{
       method: :get,
-      url: "pages/#{page_id}/properties/#{property_id}"
-      params: Map.take(params, ,[:page_size, :start_cursor])
+      url: "pages/#{page_id}/properties/#{property_id}",
+      params: Map.take(params, [:page_size, :start_cursor])
     }
     |> do_client_request(opts)
   end
@@ -127,6 +127,20 @@ defmodule Notionex.API do
 
   @doc endpoint: :database
   @doc """
+  Create a database.
+  """
+  def create_database(%{parent: %Parent{} = parent, properties: properties} = params, opts \\ []) do
+    %Request{
+      method: :post,
+      url: "databases",
+      body: Map.take(params, [:parent, :title, :properties])
+    }
+    |> do_client_request(opts)
+    |> Database.new()
+  end
+
+  @doc endpoint: :database
+  @doc """
   Query a database.
   """
   def query_database(%{database_id: database_id} = params, opts \\ []) do
@@ -138,6 +152,33 @@ defmodule Notionex.API do
     }
     |> do_client_request(opts)
     |> List.new()
+  end
+
+  @doc endpoint: :database
+  @doc """
+  Retrieve a database.
+  """
+  def retrieve_database(%{database_id: database_id}, opts \\ []) do
+    %Request{
+      method: :get,
+      url: "databases/#{database_id}"
+    }
+    |> do_client_request(opts)
+    |> Database.new()
+  end
+
+  @doc endpoint: :database
+  @doc """
+  Update a database.
+  """
+  def update_database(%{database_id: database_id} = params, opts \\ []) do
+    %Request{
+      method: :patch,
+      url: "databases/#{database_id}",
+      body: Map.take(params, [:title, :description, :properties])
+    }
+    |> do_client_request(opts)
+    |> Database.new()
   end
 
   @default_base_url "https://api.notion.com/v1"
