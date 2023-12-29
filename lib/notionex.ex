@@ -1,5 +1,4 @@
 defmodule Notionex do
-  # alias Notionex.Object
   alias Notionex.API
 
   def request(request_params, endpoint, opts \\ []) do

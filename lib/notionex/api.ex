@@ -92,7 +92,7 @@ defmodule Notionex.API do
     %Request{
       method: :post,
       url: "databases/#{database_id}/query",
-      params: Map.take(params, :filter_properties),
+      params: Map.take(params, [:filter_properties]),
       body: Map.take(params, [:filter, :sorts, :start_cursor, :page_size])
     }
     |> do_client_request(opts)
