@@ -117,6 +117,10 @@ defmodule Notionex.Renderer.HTMLRenderer do
     |> then(&"<blockquote>#{&1}</blockquote>")
   end
 
+  def render_block(%Block{object: "block", type: "embed", embed: embed}) do
+    "<iframe width=\"560px\" height=\"315px\" src=\"#{Map.get(embed, "url")}\" frameborder=\"0\" allowfullscreen></iframe>"
+  end
+
   def render_block(%Block{object: "block", type: type}) do
     raise "Block type not implemented: #{type}"
   end
