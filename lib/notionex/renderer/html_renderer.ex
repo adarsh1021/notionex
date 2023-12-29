@@ -39,14 +39,12 @@ defmodule Notionex.Renderer.HTMLRenderer do
     |> then(&"<h5>#{&1}</h5>")
   end
 
-  def render_block(
-        %Block{
-          object: "block",
-          type: "numbered_list_item",
-          numbered_list_item: numbered_list_item,
-          numbered_list_item_number: numbered_list_item_number
-        }
-      ) do
+  def render_block(%Block{
+        object: "block",
+        type: "numbered_list_item",
+        numbered_list_item: numbered_list_item,
+        numbered_list_item_number: numbered_list_item_number
+      }) do
     numbered_list_item
     |> render_rich_text()
     # TODO: Wrap within <li> and let HTML generate the numbers
@@ -54,9 +52,11 @@ defmodule Notionex.Renderer.HTMLRenderer do
     |> then(&"<ol>#{&1}</ol>")
   end
 
-  def render_block(
-        %Block{object: "block", type: "bulleted_list_item", bulleted_list_item: bullet_list_item}
-      ) do
+  def render_block(%Block{
+        object: "block",
+        type: "bulleted_list_item",
+        bulleted_list_item: bullet_list_item
+      }) do
     bullet_list_item
     |> render_rich_text()
     |> then(&"<ul><li>#{&1}</li></ul>")

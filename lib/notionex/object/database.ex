@@ -1,2 +1,3 @@
-defmodule Notionex.Database do
+defmodule Notionex.Object.Database do
+  @moduledoc false
 end

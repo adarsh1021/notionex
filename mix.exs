@@ -15,10 +15,32 @@ defmodule Notionex.MixProject do
       ],
       docs: [
         main: "Notionex",
+        groups_for_modules: [
+          "API Client": [
+            Notionex.API,
+            Notionex.API.Client,
+            Notionex.API.HTTPoisonClient,
+            Notionex.API.Request
+          ],
+          Renderer: [Notionex.Renderer, Notionex.Renderer.HTMLRenderer],
+          "Notion Objects": [
+            Notionex.Object,
+            Notionex.Object.Block,
+            Notionex.Object.Page,
+            Notionex.Object.List,
+            Notionex.Object.User,
+            Notionex.Object.Parent,
+            Notionex.Object.File
+          ]
+        ],
         groups_for_docs: [
-          "Block Endpoints": & &1[:endpoint] == :block,
-          "Page Endpoints": & &1[:endpoint] == :page,
-          "Database Endpoints": & &1[:endpoint] == :database
+          # Home Page
+          "API Client": &(&1[:feature] == :api),
+          Renderer: &(&1[:feature] == :renderer),
+          # API Client
+          "Block Endpoints": &(&1[:endpoint] == :block),
+          "Page Endpoints": &(&1[:endpoint] == :page),
+          "Database Endpoints": &(&1[:endpoint] == :database)
         ]
       ]
     ]

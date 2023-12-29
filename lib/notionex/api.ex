@@ -6,7 +6,7 @@ defmodule Notionex.API do
   @doc """
   Append block children.
   """
-  def append_block_children(%{block_id: block_id, children: children} = params, opts \\ []) do
+  def append_block_children(%{block_id: block_id, children: _children} = params, opts \\ []) do
     %Request{
       method: :patch,
       url: "blocks/#{block_id}/children",
