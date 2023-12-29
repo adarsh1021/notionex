@@ -72,6 +72,20 @@ defmodule Notionex.API do
 
   @doc endpoint: :page
   @doc """
+  Create a page.
+  """
+  def create_page(%{parent: parent, properties: properties} = params, opts \\ []) do
+    %Request{
+      method: :post,
+      url: "pages",
+      body: Map.take(params, [:parent, :properties, :children, :icon, :cover])
+    }
+    |> do_client_request(opts)
+    |> Page.new()
+  end
+
+  @doc endpoint: :page
+  @doc """
   Retrieve a page.
   """
   def retrieve_page(%{page_id: page_id} = params, opts \\ []) do
@@ -79,6 +93,33 @@ defmodule Notionex.API do
       method: :get,
       url: "pages/#{page_id}",
       params: Map.take(params, [:filter_properties])
+    }
+    |> do_client_request(opts)
+    |> Page.new()
+  end
+
+  @doc endpoint: :page
+  @doc """
+  Retrieve a page property item.
+  """
+  def retrieve_page_property(%{page_id: page_id, property_id: property_id} = params, opts \\ []) do
+    %Request{
+      method: :get,
+      url: "pages/#{page_id}/properties/#{property_id}"
+      params: Map.take(params, ,[:page_size, :start_cursor])
+    }
+    |> do_client_request(opts)
+  end
+
+  @doc endpoint: :page
+  @doc """
+  Update page properties.
+  """
+  def update_page_properties(%{page_id: page_id} = params, opts \\ []) do
+    %Request{
+      method: :patch,
+      url: "pages/#{page_id}",
+      body: Map.take(params, [:properties, :archived, :icon, :cover])
     }
     |> do_client_request(opts)
     |> Page.new()
