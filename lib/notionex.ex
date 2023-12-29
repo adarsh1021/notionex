@@ -1,4 +1,10 @@
 defmodule Notionex do
+  @moduledoc """
+  Notionex is a simple Elixir client for the [Notion API](https://developers.notion.com)
+  that is also capable of rendering Notion pages into various formats like HTML, markdown and more.
+
+  """
+
   alias Notionex.API
 
   @doc feature: :api

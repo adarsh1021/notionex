@@ -1,10 +1,13 @@
 defmodule Notionex.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+  @source_url "https://github.com/adarsh1021/notionex"
+
   def project do
     [
       app: :notionex,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -13,36 +16,7 @@ defmodule Notionex.MixProject do
         licenses: ["MIT"],
         links: %{}
       ],
-      docs: [
-        main: "Notionex",
-        groups_for_modules: [
-          "API Client": [
-            Notionex.API,
-            Notionex.API.Client,
-            Notionex.API.HTTPoisonClient,
-            Notionex.API.Request
-          ],
-          Renderer: [Notionex.Renderer, Notionex.Renderer.HTMLRenderer],
-          "Notion Objects": [
-            Notionex.Object,
-            Notionex.Object.Block,
-            Notionex.Object.Page,
-            Notionex.Object.List,
-            Notionex.Object.User,
-            Notionex.Object.Parent,
-            Notionex.Object.File
-          ]
-        ],
-        groups_for_docs: [
-          # Home Page
-          "API Client": &(&1[:feature] == :api),
-          Renderer: &(&1[:feature] == :renderer),
-          # API Client
-          "Block Endpoints": &(&1[:endpoint] == :block),
-          "Page Endpoints": &(&1[:endpoint] == :page),
-          "Database Endpoints": &(&1[:endpoint] == :database)
-        ]
-      ]
+      docs: docs()
     ]
   end
 
@@ -59,6 +33,42 @@ defmodule Notionex.MixProject do
       {:httpoison, "~> 2.2.1"},
       {:jason, "~> 1.4.1"},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false}
+    ]
+  end
+
+  defp docs() do
+    [
+      name: "Notionex",
+      main: "readme",
+      source_url: @source_url,
+      extras: ["README.md"],
+      groups_for_modules: [
+        "API Client": [
+          Notionex.API,
+          Notionex.API.Client,
+          Notionex.API.HTTPoisonClient,
+          Notionex.API.Request
+        ],
+        Renderer: [Notionex.Renderer, Notionex.Renderer.HTMLRenderer],
+        "Notion Objects": [
+          Notionex.Object,
+          Notionex.Object.Block,
+          Notionex.Object.Page,
+          Notionex.Object.List,
+          Notionex.Object.User,
+          Notionex.Object.Parent,
+          Notionex.Object.File
+        ]
+      ],
+      groups_for_docs: [
+        # Home Page
+        "API Client": &(&1[:feature] == :api),
+        Renderer: &(&1[:feature] == :renderer),
+        # API Client
+        "Block Endpoints": &(&1[:endpoint] == :block),
+        "Page Endpoints": &(&1[:endpoint] == :page),
+        "Database Endpoints": &(&1[:endpoint] == :database)
+      ]
     ]
   end
 end

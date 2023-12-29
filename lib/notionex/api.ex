@@ -78,7 +78,7 @@ defmodule Notionex.API do
     %Request{
       method: :get,
       url: "pages/#{page_id}",
-      params: Map.take(params, :filter_properties)
+      params: Map.take(params, [:filter_properties])
     }
     |> do_client_request(opts)
     |> Page.new()
