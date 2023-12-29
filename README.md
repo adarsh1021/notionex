@@ -20,7 +20,7 @@ Setup the Notion API bearer token in your configuration:
 
 ```elixir
 config :notionex,
-  bearer_token: ""
+  bearer_token: "<BEARER_TOKEN>"
 ```
 
 Then use the `Notionex` module to make an API call to Notion:
@@ -89,3 +89,36 @@ iex(1)> Notionex.render_page("240db7dd3cc241fb9739d491a6016562")
 ```
 
 Full documentation can be found at [https://hexdocs.pm/notionex](https://hexdocs.pm/notionex).
+
+## Notion API Client
+
+Notionex provides a simple Elixir client for the Notion API, capable of making all the API calls listed in the [official documentation](https://developers.notion.com/reference/intro).
+
+Requests can be made using the `Notionex.request/2` function. It takes two arguments:
+
+1. `request_params` - A map containing all the parameters for the request. The keys and values of this map are specific to the API call being made, and can include path params, query params and body params. Notionex takes care of constructing the request and body based on the parameters provided.
+2. `request_type` - An atom representing the type of request to be made. This can be one of the following:
+   - Block Endpoints
+     - `:append_block_children`
+     - `:retrieve_block`
+     - `:retrieve_block_children`
+     - `:update_block`
+     - `:delete_block`
+   - Page Endpoints
+     - `:create_page`
+     - `:retrieve_page`
+     - `retrieve_page_property`
+     - `:update_page_property`
+   - Database Endpoints
+     - `:create_database`
+     - `:query_database`
+     - `:retrieve_database`
+     - `:update_database`
+3. Options:
+   - `:bearer_token` - The Notion API bearer token to be used for the request. If not provided, the bearer token from the configuration will be used.
+   - `:base_url` - The base URL to be used for the request. Defaults to `https://api.notion.com/v1`.
+   - `:http_client` - The HTTP client to be used for the request. Defaults to `Notionex.API.HTTPoisonClient`.
+
+## Notion Page Renderer
+
+### `Notionex.Renderer.HTMLRenderer`
