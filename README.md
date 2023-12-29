@@ -1,11 +1,10 @@
 # Notionex
 
-**TODO: Add description**
+**A simple Elixir client for the <a href="https://developers.notion.com">Notion API</a> that is also capable of rendering Notion pages into various formats like HTML, markdown and more.**
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `notionex` to your list of dependencies in `mix.exs`:
+Add `notionex` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -14,8 +13,3 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/notionex>.
-
