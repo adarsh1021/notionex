@@ -74,7 +74,7 @@ defmodule Notionex.API do
   @doc """
   Create a page.
   """
-  def create_page(%{parent: parent, properties: properties} = params, opts \\ []) do
+  def create_page(%{parent: _parent, properties: _properties} = params, opts \\ []) do
     %Request{
       method: :post,
       url: "pages",
@@ -129,7 +129,7 @@ defmodule Notionex.API do
   @doc """
   Create a database.
   """
-  def create_database(%{parent: %Parent{} = parent, properties: properties} = params, opts \\ []) do
+  def create_database(%{parent: %Parent{}, properties: _properties} = params, opts \\ []) do
     %Request{
       method: :post,
       url: "databases",
