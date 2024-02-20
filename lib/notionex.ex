@@ -16,6 +16,10 @@ defmodule Notionex do
   def render_block(block_id, opts \\ []) do
     %{block_id: block_id}
     |> request(:retrieve_block, opts)
+    # If upload to file store option is enabled, then
+    # iterate through the blocks, and upload any file to the specified file store
+    # args can be given in opts to specify the file store
+    |> upload_to_file_store()
     |> Notionex.Renderer.HTMLRenderer.render_block()
   end
 
