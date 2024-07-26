@@ -6,7 +6,8 @@ defmodule Notionex.Object do
           created_by: __MODULE__.User.t(),
           last_edited_time: binary,
           last_edited_by: __MODULE__.User.t(),
-          archived: boolean()
+          archived: boolean(),
+          in_trash: boolean()
         }
 
   def default_properties do
@@ -17,7 +18,8 @@ defmodule Notionex.Object do
       created_by: %__MODULE__.User{},
       last_edited_time: nil,
       last_edited_by: %__MODULE__.User{},
-      archived: false
+      archived: false,
+      in_trash: false
     ]
   end
 end
