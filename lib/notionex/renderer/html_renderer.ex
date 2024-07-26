@@ -11,7 +11,19 @@ defmodule Notionex.Renderer.HTMLRenderer do
       [updated_block | acc]
     end)
     |> Enum.reverse()
-    |> Enum.map(fn b -> render_block(b) end)
+    |> Enum.map(fn b ->
+      block_content = render_block(b)
+
+      child_content =
+        if b.has_children do
+          child_blocks = Notionex.API.retrieve_block_children(%{block_id: b.id})
+          render_block(child_blocks)
+        else
+          ""
+        end
+
+      "<div>#{block_content}#{child_content}</div>"
+    end)
     |> Enum.join("<br />")
   end
 
@@ -106,11 +118,6 @@ defmodule Notionex.Renderer.HTMLRenderer do
     |> then(&"<a href=\"#{&1}\">#{&1}</a>")
   end
 
-  # Not sure what to do with this
-  def render_block(%Block{object: "block", type: "column_list"}) do
-    ""
-  end
-
   def render_block(%Block{object: "block", type: "quote", quote: blockquote}) do
     blockquote
     |> render_rich_text()
@@ -119,6 +126,15 @@ defmodule Notionex.Renderer.HTMLRenderer do
 
   def render_block(%Block{object: "block", type: "embed", embed: embed}) do
     "<iframe width=\"560px\" height=\"315px\" src=\"#{Map.get(embed, "url")}\" frameborder=\"0\" allowfullscreen></iframe>"
+  end
+
+   # Not sure what to do with these
+  def render_block(%Block{object: "block", type: "column"}) do
+    ""
+  end
+
+  def render_block(%Block{object: "block", type: "column_list"}) do
+    ""
   end
 
   def render_block(%Block{object: "block", type: type}) do
