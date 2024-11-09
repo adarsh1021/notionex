@@ -123,7 +123,7 @@ Requests can be made using the `Notionex.request/2` function. It takes two argum
 
 Notion pages can be rendered into various formats like HTML, markdown and more by implementing the `Notionex.Renderer` module. It includes two functions:
 
-- `render_block/1`
+- `render_block/2`
 - `render_rich_text/1`
 
 Notionex already includes a HTML renderer that can be used to render Notion pages into HTML. It can be accessed using the `Notionex.Renderer.HTMLRenderer` module. Currently, it supports the following block types:
