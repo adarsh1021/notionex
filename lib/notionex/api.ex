@@ -6,7 +6,7 @@ defmodule Notionex.API do
   @doc """
   Append block children.
   """
-  def append_block_children(%{block_id: block_id, children: _children} = params, opts \\ []) do
+  def append_block_children(%{block_id: block_id, children: _children} = params, opts \\ %{}) do
     %Request{
       method: :patch,
       url: "blocks/#{block_id}/children",
@@ -20,7 +20,7 @@ defmodule Notionex.API do
   @doc """
   Retrieve a block.
   """
-  def retrieve_block(%{block_id: block_id}, opts \\ []) do
+  def retrieve_block(%{block_id: block_id}, opts \\ %{}) do
     %Request{
       method: :get,
       url: "blocks/#{block_id}"
@@ -33,7 +33,7 @@ defmodule Notionex.API do
   @doc """
   Retrieve block children.
   """
-  def retrieve_block_children(%{block_id: block_id} = params, opts \\ []) do
+  def retrieve_block_children(%{block_id: block_id} = params, opts \\ %{}) do
     %Request{
       method: :get,
       url: "blocks/#{block_id}/children",
@@ -47,7 +47,7 @@ defmodule Notionex.API do
   @doc """
   Update block.
   """
-  def update_block(%{block_id: block_id} = params, opts \\ []) do
+  def update_block(%{block_id: block_id} = params, opts \\ %{}) do
     %Request{
       method: :patch,
       url: "blocks/#{block_id}",
@@ -61,7 +61,7 @@ defmodule Notionex.API do
   @doc """
   Delete a block.
   """
-  def delete_block(%{block_id: block_id}, opts \\ []) do
+  def delete_block(%{block_id: block_id}, opts \\ %{}) do
     %Request{
       method: :delete,
       url: "blocks/#{block_id}"
@@ -74,7 +74,7 @@ defmodule Notionex.API do
   @doc """
   Create a page.
   """
-  def create_page(%{parent: _parent, properties: _properties} = params, opts \\ []) do
+  def create_page(%{parent: _parent, properties: _properties} = params, opts \\ %{}) do
     %Request{
       method: :post,
       url: "pages",
@@ -88,7 +88,7 @@ defmodule Notionex.API do
   @doc """
   Retrieve a page.
   """
-  def retrieve_page(%{page_id: page_id} = params, opts \\ []) do
+  def retrieve_page(%{page_id: page_id} = params, opts \\ %{}) do
     %Request{
       method: :get,
       url: "pages/#{page_id}",
@@ -102,7 +102,7 @@ defmodule Notionex.API do
   @doc """
   Retrieve a page property item.
   """
-  def retrieve_page_property(%{page_id: page_id, property_id: property_id} = params, opts \\ []) do
+  def retrieve_page_property(%{page_id: page_id, property_id: property_id} = params, opts \\ %{}) do
     %Request{
       method: :get,
       url: "pages/#{page_id}/properties/#{property_id}",
@@ -115,7 +115,7 @@ defmodule Notionex.API do
   @doc """
   Update page properties.
   """
-  def update_page_properties(%{page_id: page_id} = params, opts \\ []) do
+  def update_page_properties(%{page_id: page_id} = params, opts \\ %{}) do
     %Request{
       method: :patch,
       url: "pages/#{page_id}",
@@ -129,7 +129,7 @@ defmodule Notionex.API do
   @doc """
   Create a database.
   """
-  def create_database(%{parent: %Parent{}, properties: _properties} = params, opts \\ []) do
+  def create_database(%{parent: %Parent{}, properties: _properties} = params, opts \\ %{}) do
     %Request{
       method: :post,
       url: "databases",
@@ -143,7 +143,7 @@ defmodule Notionex.API do
   @doc """
   Query a database.
   """
-  def query_database(%{database_id: database_id} = params, opts \\ []) do
+  def query_database(%{database_id: database_id} = params, opts \\ %{}) do
     %Request{
       method: :post,
       url: "databases/#{database_id}/query",
@@ -158,7 +158,7 @@ defmodule Notionex.API do
   @doc """
   Retrieve a database.
   """
-  def retrieve_database(%{database_id: database_id}, opts \\ []) do
+  def retrieve_database(%{database_id: database_id}, opts \\ %{}) do
     %Request{
       method: :get,
       url: "databases/#{database_id}"
@@ -171,7 +171,7 @@ defmodule Notionex.API do
   @doc """
   Update a database.
   """
-  def update_database(%{database_id: database_id} = params, opts \\ []) do
+  def update_database(%{database_id: database_id} = params, opts \\ %{}) do
     %Request{
       method: :patch,
       url: "databases/#{database_id}",
@@ -210,7 +210,7 @@ defmodule Notionex.API do
   defp get_bearer_token(opts) do
     # If bearer_token is passed in, use that
     # Otherwise, use the one from the config (throws an error if not set)
-    with bearer_token when is_binary(bearer_token) <- Keyword.get(opts, :bearer_token) do
+    with bearer_token when is_binary(bearer_token) <- Map.get(opts, :bearer_token) do
       bearer_token
     else
       nil ->
