@@ -1,8 +1,4 @@
 defmodule NotionexTest do
-  use ExUnit.Case
-  doctest Notionex
-
-  test "greets the world" do
-    assert Notionex.hello() == :world
-  end
+  use ExUnit.Case, async: true
+  doctest Notionex.Renderer.HTMLRenderer
 end

@@ -43,6 +43,13 @@ defmodule Notionex.Renderer.HTMLRenderer do
     |> Enum.join("<br />")
   end
 
+  @doc """
+  Renders the paragraph block into HTML.
+
+  ## Example
+      iex> Notionex.Renderer.HTMLRenderer.render_block(%Notionex.Object.Block{object: "block", type: "paragraph", paragraph: %{"color" => "default","rich_text" => [%{"annotations" => %{"bold" => false,"code" => false,"color" => "default","italic" => false,"strikethrough" => false,"underline" => false},"href" => nil,"plain_text" => "Hello world!","text" => %{"content" => "Hello world!", "link" => nil},"type" => "text"}]}}, %{})
+      "<p>Hello world!</p>"
+  """
   def render_block(%Block{object: "block", type: "paragraph", paragraph: paragraph}, _opts) do
     paragraph
     |> render_rich_text()
