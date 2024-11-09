@@ -6,7 +6,7 @@ defmodule Notionex.Renderer.HTMLRenderer do
   @impl true
   def render_block(
         %List{object: "list", type: "block", results: results},
-        %{custom: custom} = opts
+        opts
       ) do
     results
     |> Enum.reduce([], fn block, acc ->
@@ -15,18 +15,15 @@ defmodule Notionex.Renderer.HTMLRenderer do
     end)
     |> Enum.reverse()
     |> Enum.map(fn b ->
-
       # Check for custom renderer
+      # Current limitation is that custom renderer is only applied if called from the top level List block.
       # TODO: Move to different function
-      custom_renderer =
-        Enum.find(custom, fn %{object: object, type: type} ->
-          object == b.object and type == b.type
-        end)
+      custom_render_fn = Map.get(opts, :custom, %{}) |> Map.get({b.object, b.type})
 
       block_content =
-        case custom_renderer do
+        case custom_render_fn do
           nil -> render_block(b, opts)
-          _ -> custom_renderer.render_fn.(b, opts)
+          _ -> custom_render_fn.(b, opts)
         end
 
       # TODO: allow custom renderer for children
