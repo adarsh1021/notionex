@@ -4,16 +4,35 @@ defmodule Notionex.Object.Page do
   @type t() ::
           Object.t()
           | %{
-              url: binary,
-              public_url: binary,
+              created_by: Object.User.t(),
+              last_edited_by: Object.User.t(),
               cover: Object.File.t(),
               icon: Object.File.t(),
+              in_trash: boolean(),
+              is_locked: boolean(),
+              url: binary,
+              public_url: binary,
+              developer_survey: binary,
+              request_id: binary,
               parent: Object.Parent.t(),
               properties: map
             }
 
   defstruct Object.default_properties() ++
-              [url: nil, public_url: nil, cover: nil, icon: nil, parent: nil, properties: %{}]
+              [
+                created_by: %Object.User{},
+                last_edited_by: %Object.User{},
+                cover: nil,
+                icon: nil,
+                in_trash: false,
+                is_locked: false,
+                url: nil,
+                public_url: nil,
+                developer_survey: nil,
+                request_id: nil,
+                parent: nil,
+                properties: %{}
+              ]
 
   def new(%{"object" => "page"} = attrs) do
     attrs
