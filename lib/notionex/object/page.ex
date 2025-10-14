@@ -20,11 +20,8 @@ defmodule Notionex.Object.Page do
 
   defstruct Object.default_properties() ++
               [
-                created_by: %Object.User{},
-                last_edited_by: %Object.User{},
                 cover: nil,
                 icon: nil,
-                in_trash: false,
                 is_locked: false,
                 url: nil,
                 public_url: nil,
