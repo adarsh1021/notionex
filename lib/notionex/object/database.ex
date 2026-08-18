@@ -29,10 +29,6 @@ defmodule Notionex.Object.Database do
               ]
 
   def new(%{"object" => "database"} = attrs) do
-    attrs
-    |> Enum.reduce(%__MODULE__{}, fn {key, val}, acc ->
-      acc
-      |> Map.put(String.to_existing_atom(key), val)
-    end)
+    Object.populate(%__MODULE__{}, attrs)
   end
 end

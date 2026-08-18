@@ -32,10 +32,6 @@ defmodule Notionex.Object.Page do
               ]
 
   def new(%{"object" => "page"} = attrs) do
-    attrs
-    |> Enum.reduce(%__MODULE__{}, fn {key, val}, acc ->
-      acc
-      |> Map.put(String.to_existing_atom(key), val)
-    end)
+    Object.populate(%__MODULE__{}, attrs)
   end
 end
