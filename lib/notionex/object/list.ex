@@ -16,31 +16,14 @@ defmodule Notionex.Object.List do
             page_or_database: %{}
 
   def new(%{"object" => "list", "type" => "block"} = attrs) do
-    attrs
-    |> Enum.reduce(%__MODULE__{}, fn
-      {"results", val}, acc ->
-        acc
-        |> Map.put(:results, Enum.map(val, &Notionex.Object.Block.new/1))
+    {results, attrs} = Map.pop(attrs, "results", [])
 
-      {key, val}, acc ->
-        acc
-        |> Map.put(String.to_existing_atom(key), val)
-    end)
+    %__MODULE__{}
+    |> Notionex.Object.populate(attrs)
+    |> Map.put(:results, Enum.map(results, &Notionex.Object.Block.new/1))
   end
 
   def new(%{"object" => "list", "type" => "page_or_database"} = attrs) do
-    attrs
-    |> Enum.reduce(%__MODULE__{}, fn
-      {"results", %{"object" => "page"} = val}, acc ->
-        acc
-        |> Map.put(:results, Enum.map(val, &Notionex.Object.Page.new/1))
-
-      {"results", %{"object" => object}}, _acc ->
-        raise "Unknown object type: #{object}"
-
-      {key, val}, acc ->
-        acc
-        |> Map.put(String.to_existing_atom(key), val)
-    end)
+    Notionex.Object.populate(%__MODULE__{}, attrs)
   end
 end
